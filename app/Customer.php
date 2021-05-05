@@ -35,25 +35,20 @@ class Customer extends Model
     public function invoice()
     {
         return $this->hasOne(Invoice::class, 'customer_id', 'ext_id')
-            ->orderBy('invoice_date','desc');;
+            ->orderBy('invoice_date','desc');
     }
     public function payment()
     {
         return $this->hasOne(Payment::class, 'customer_id', 'ext_id')
-            ->orderBy('payments.payment_date','desc');;
+            ->orderBy('payments.payment_date','desc');
     }
 
     public function notes()
     {
         return $this->hasMany(InvoiceNote::class, 'ext_id', 'customer_id');
     }
-
     public function bcc()
     {
         return $this->hasOne(BccAllLicense::class, 'licenseNumber', 'license');
-    }
-    public function bcc()
-    {
-        return $this->hasOne(BccAllLicense::class, 'zip_code', 'zip');
     }
 }

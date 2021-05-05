@@ -19,10 +19,11 @@
                                 <th>Issued</th>
                                 <th>Name</th>
                                 <th>DBA</th>
-                                <th>Address 1</th>
                                 <th>City</th>
                                 <th>Zip</th>
                                 <th>County</th>
+                                <th>Territory</th>
+                                <th>Oz Customer</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -34,10 +35,11 @@
                                     <td>{{$bcc->issuedDate}}</td>
                                     <td>{{$bcc->businessName}}</td>
                                     <td>{{$bcc->businessDBA}}</td>
-                                    <td>{{$bcc->addressLine1}}</td>
                                     <td>{{$bcc->premiseCity}}</td>
                                     <td>{{$bcc->premiseZip}}</td>
                                     <td>{{$bcc->premiseCounty}}</td>
+                                    <td>{{$bcc->territory}}</td>
+                                    <td>{{$bcc->ozCustomer ? "Yes" : "No"}}</td>
                                 </tr>
 
                             @endforeach
@@ -56,12 +58,36 @@
         <script>
 
             $(document).ready(function () {
-                $('#table_id').DataTable(
-                    {
-                        dom: 'Bfrtip',
+                $('#table_id').DataTable({
+/*
+                    serverSide: false,
+                    ajax: "{{ route('bcc.datatables') }}",
+                    columns: [
+                        { name: 'id' },
+                        { name: 'licenseNumber' },
+                        { name: 'issuedDate' },
+                        { name: 'businessName' },
+                        { name: 'businessDBA' },
+                        { name: 'premiseCity' },
+                        { name: 'premiseZip' },
+                        { name: 'premiseCounty' },
+                        { name: 'territory' },
+                        { name: 'ozCustomer' },
+                        { name: 'ozCustomer ? "Yes" : "No"' },
+/!*
+                        { name: 'role.name', orderable: false },
+                        { name: 'action', orderable: false, searchable: false }
+*!/
+                    ],
+*/
+                        dom: 'Bflrtip',
                         buttons: [
-                            'copy', 'excel', 'pdf'
-                        ]
+                            'copy', 'excel', 'pageLength'
+                        ],
+                        lengthMenu: [
+                            [ 10, 25, 50, -1 ],
+                            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                        ],
                     }
                 );
             });

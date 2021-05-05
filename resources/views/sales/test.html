@@ -1,0 +1,38 @@
+<html>
+<head>
+    <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+    <script type='text/javascript'>
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyBiZ9OoviT8OY0F6HQ8C55ykjR_kVeaC80'
+        });
+        google.charts.setOnLoadCallback(drawMarkersMap);
+
+        function drawMarkersMap() {
+            var data = google.visualization.arrayToDataTable([
+                ['City', 'Population', 'Area'],
+                ['San Francisco', 2761477, 1285.31],
+                ['Eureka', 1324110, 181.76],
+                ['Santa Cruz', 959574, 117.27],
+                ['3801 Sunnyside Ave Eureka CA 95503', 907563, 130.17],
+            ]);
+
+            var options = {
+                region: 'US',
+                displayMode: 'markers',
+                colorAxis: {
+                    colors: ['green', 'blue']},
+                zoom: 1
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        };
+    </script>
+</head>
+<body>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>

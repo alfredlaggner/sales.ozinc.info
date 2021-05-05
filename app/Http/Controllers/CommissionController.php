@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\BccAllLicense;
 use App\Salesline;
 use App\TenNinetyCalendar;
 use Gate;
@@ -48,14 +49,14 @@ class CommissionController extends Controller
                 'salesperson_id' => $request->get('salesperson_id')];
         }
 
-        $salesperson = Salesperson::where('is_not_active',false)->orderBy('name')->get();
+        $salesperson = Salesperson::where('is_not_active', false)->orderBy('name')->get();
 
 
         $months = Month::all();
         $now = Carbon::now();
         $months = Month::
-/*        where('month_id', '<=', $now->month)*/
-            orderBy('month_id', 'desc')
+        /*        where('month_id', '<=', $now->month)*/
+        orderBy('month_id', 'desc')
             ->get();
 //dd($months);
         $paidMonths = SavedCommission::where('is_commissions_paid', '>', 0)
@@ -68,6 +69,9 @@ class CommissionController extends Controller
         $salesperson_id = $user->sales_person_id;
         $salesperson_name = $user->name;
         $pay_periods = TenNinetyCalendar::get();
+
+        $bcc_types = BccAllLicense::groupBy('licenseType')->pluck('licenseType');
+       //   dd($bcc_types);
 
         $pay_calendar = [];
         foreach ($pay_periods as $pay_period) {
@@ -96,7 +100,8 @@ class CommissionController extends Controller
             'allMonths' => Month::all(),
             'paidMonths' => $paidMonths,
             'currentMonth' => Carbon::now()->month,
-            'salesperson' => $salesperson
+            'salesperson' => $salesperson,
+            'bcc_types' => $bcc_types,
         ]);
 
     }

@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\User;
-use Illuminate\View\View;
 use Yajra\Datatables\Datatables;
 
-class DataTablesController extends Controller
+class DatatablesController extends Controller
 {
     /**
      * Displays datatables front end view
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
-    public function datatable()
+    public function index()
     {
         return view('datatables.index');
     }
@@ -23,11 +21,10 @@ class DataTablesController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-
-    public function getPosts()
+    public function anyData()
     {
-        return \DataTables::of(User::query())->make(true);
+        return Datatables::of(User::query())->make(true);
     }
 }

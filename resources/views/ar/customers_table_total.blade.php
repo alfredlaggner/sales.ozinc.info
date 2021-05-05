@@ -81,7 +81,7 @@
                         $.ajax({
                             url: href,
                             beforeSend: function () {
-                                $('#loader').show();
+                                $('#loader{{$i}}').show();
                             },
                             // return the result
                             success: function (result) {
@@ -89,24 +89,24 @@
                                 $('#mediumBody{{$i}}').html(result).show();
                             },
                             complete: function () {
-                                $('#loader').hide();
+                                $('#loader{{$i}}').hide();
                             },
                             error: function (jqXHR, testStatus, error) {
                                 console.log(error);
                                 alert("Page " + href + " cannot open. Error:" + error);
-                                $('#loader').hide();
+                                $('#loader{{$i}}').hide();
                             },
                             timeout: 8000
                         })
                     });
 
                 </script>
-                <div class="modal fade" id="mediumModal{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                <div class="modal fade" id="mediumModal{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel{{$i}}"
                      aria-hidden="true">
                     <div class="modal-dialog modal-fullscreen">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Detail View</h5>
+                                <h5 class="modal-title" id="exampleModalLabel{{$i}}">Detail View</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>

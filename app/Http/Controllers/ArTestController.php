@@ -155,9 +155,9 @@ class ArTestController extends Controller
         })->minbalancedetail()->orderBy('customer')
             ->get();
         $ars_totals = AgedReceivablesTotal::minbalance()
-        ->when($customer_id, function ($query, $customer_id) {
-            return $query->where('customer_id', $customer_id);
-        })->orderBy('customer')
+            ->when($customer_id, function ($query, $customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->orderBy('customer')
             ->where('residual', '>', 100)
             ->get();
 
@@ -165,5 +165,26 @@ class ArTestController extends Controller
         $notes = InvoiceNote::orderBy('updated_at', 'desc')->get();
 
         return (view('ar.ajax_accordion', compact('ars', 'ars_totals', 'notes', 'amt_collects')));
+    }
+    public function ajax_new_aged_receivables_2($customer_id = 0)
+    {
+        $ars = AgedReceivable::
+        when($customer_id, function ($query, $customer_id) {
+            return $query->where('customer_id', $customer_id);
+        })->minbalancedetail()->orderBy('customer')
+            ->get();
+        $ars_totals = AgedReceivablesTotal::minbalance()
+            ->when($customer_id, function ($query, $customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->orderBy('customer')
+            ->where('residual', '>', 100)
+            ->get();
+
+        $amt_collects = InvoiceAmountCollect::orderBy('updated_at', 'desc')->get();
+        $notes = InvoiceNote::orderBy('updated_at', 'desc')->get();
+
+        $returnHTML = view('ar.ajax_accordion', compact('ars', 'ars_totals', 'notes', 'amt_collects'))->render();
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
+    //    return (view('ar.ajax_accordion', compact('ars', 'ars_totals', 'notes', 'amt_collects')));
     }
 }

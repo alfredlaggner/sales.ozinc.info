@@ -1,47 +1,34 @@
-@extends('layouts.app')
-
-@section('style')
-    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
-@endsection
+@extends('layouts.master')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Data Table Demo</div>
+    <table class="table table-bordered" id="users-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+        </thead>
+    </table>
+@stop
 
-                    <div class="panel-body">
-                        <table class="table table-hover table-bordered table-striped datatable" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@section('script')
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.datatable').DataTable({
+@push('scripts')
+    <script>
+        $(function() {
+            $('#users-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('datatable/getdata') }}',
+                ajax: '{!! route('datatables.data') !!}',
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email' },
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'updated_at', name: 'updated_at' }
                 ]
             });
         });
     </script>
-@endsection
+@endpush

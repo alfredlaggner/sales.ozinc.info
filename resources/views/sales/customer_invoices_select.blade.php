@@ -1,20 +1,20 @@
 <div class="card">
-    <div class="card-header" id="headingCustomerSales">
+    <div class="card-header" id="headingCustomerInvoices">
         <h2 class="mb-0">
             <button class="btn btn-link collapsed" type="button"
                     data-toggle="collapse"
-                    data-target="#collapseCustomerSales" aria-expanded="false"
-                    aria-controls="collapseCustomerSales">
-                <h6>AR Totals </h6>
+                    data-target="#collapseCustomerInvoices" aria-expanded="false"
+                    aria-controls="collapseCustomerInvoices">
+                <h6>Customer Sales Totals</h6>
             </button>
         </h2>
     </div>
-    <div id="collapseCustomerSales" class="collapse"
-         aria-labelledby="headingCustomerSales"
+    <div id="collapseCustomerInvoices" class="collapse"
+         aria-labelledby="headingCustomerInvoices"
          data-parent="#accordionExample">
         <div class="card-body">
             <form method="post"
-                  action="{{route('customers_per_rep')}}">
+                  action="{{route('customer.invoices')}}">
                 @csrf
                 @can('isAdmin')
                 <div class="row">

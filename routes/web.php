@@ -41,8 +41,6 @@ Auth::routes();
 
 Route::get('new', 'ChartsController@unUsedCustomers')->name('new');
 Route::get('ar/main/{rep_id?}/{customer_id?}','ArTestController@new_aged_receivables')->name('new_aged_receivables');
-Route::get('ar/ajax/{customer_id?}','ArTestController@ajax_new_aged_receivables')->name('ajax.new_aged_receivables');
-Route::get('ar/ajax_invoice/{sales_order?}','ArTestController@ajax_sales_order')->name('ajax.new_aged_receivables');
 Route::get('xxx /{rep_id?}', 'ArTestController@new_aged_receivables')->name('ar_search');
 
 Route::get('/', 'CommissionController@index')->name('home');
@@ -164,19 +162,32 @@ Route::get('bonus_update', 'EmployeeBonusController@update')->name('bonus_update
 Route::get('bonus_calc', 'EmployeeBonusController@update')->name('bonus_calc');
 Route::get('export_bonus', 'EmployeeBonusController@export_bonus')->name('export_bonus');
 Route::get('import_customers', 'EmployeeBonusController@importToCustomerImport')->name('import_customers');
-Route::get('testbcc', 'BccController@bcc')->name('test');
+//Route::get('testbcc', 'BccController@bcc')->name('bcc.datatables');
+Route::post('bcc.companies','BccController@index')->name('bcc.customers');
+Route::any('bcctest','BccController@index');
 
 Route::get('test', function () {
     Mail::to('alfred@ozinc.info')->send(new App\Mail\TestAmazonSes('It works!'));
 });
 
-Route::any('ar.customers', 'CustomersPerRepController@totalindex')->name('customers_per_rep');
+Route::any('arajax.customers', 'CustomersPerRepController@ajax_totalindex')->name('customers_per_rep');
+
+Route::any('customer_totals', 'CustomersPerRepController@index')->name('customer.invoices');
+Route::any('customers_ajax', 'CustomersPerRepController@ajax_index');
+Route::any('invoices_ajax/{customer_id}', 'CustomersPerRepController@ajax_invoices');
+
+
+Route::get('ar/ajax/{customer_id?}','ArTestController@ajax_new_aged_receivables')->name('ajax.new_aged_receivables');
+Route::get('ar/ajax_invoice/{sales_order?}','ArTestController@ajax_sales_order')->name('ajax.new_aged_receivables');
+
+//Route::any('invoices', 'CustomersPerRepController@ajax_invoices')->name('customer.invoices');
+//Route::any('ar.customers', 'CustomersPerRepController@totalindex')->name('customers_per_rep');
 //Route::any('ar.customer.details', 'CustomersPerRepController@totalindex')->name('customer_details');
 
 Route::get('ttt', function () {
-    dispatch(function () {
-        logger('my first queue!');
+   return view('sales.test');
     });
-
-    return 'Finished';
-});
+/*Route::resource('datatables', 'DataTablesController', [
+    'anyData'  => 'datatables.data',
+    'index' => 'datatables',
+]);*/

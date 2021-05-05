@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BccAllLicense extends Model
 {
+
     protected $fillable = [
         "licenseNumber",
         "licenseType",
@@ -35,8 +36,14 @@ class BccAllLicense extends Model
         "email"
     ];
 
+
     public function ozCustomer()
     {
-        return $this->hasOne(Customer::class, 'license','licenseNumber');
+        return $this->hasOne(Customer::class, 'license', 'licenseNumber');
+    }
+
+    public function ozRegion()
+    {
+        return $this->hasOne(BccZipToRegion::class, 'zip', 'premiseZip');
     }
 }
