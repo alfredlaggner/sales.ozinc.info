@@ -7,8 +7,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Scout\Searchable;
 use App\Invoice;
 use App\Payment;
+use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
+
 class Customer extends Model
 {
+    use LaravelSubQueryTrait;
     use Notifiable;
     use Searchable;
     public $asYouType = true;

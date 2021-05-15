@@ -91,7 +91,7 @@ class CustomersPerRepController extends Controller
         $customer_array = [];
         foreach ($customers as $customer) {
             if ($customer->payment) {
-                $payment_date = date('d-m-Y', strtotime($customer->payment->payment_date));
+                $payment_date = $customer->payment->payment_date;
             } else {
                 $payment_date = '';
             }
@@ -101,7 +101,7 @@ class CustomersPerRepController extends Controller
                 'invoices' => number_format($customer->invoices, 0),
                 'due' => number_format($customer->due, 2),
                 'amount' => $customer->amount,
-                'invoice_date' => date('m-d-Y', strtotime($customer->invoice->invoice_date)),
+                'invoice_date' => $customer->invoice->invoice_date,
                 'payment_date' => $payment_date,
                 'customer_id' => $customer->ext_id,
                 'rep' => $customer->rep,
@@ -115,7 +115,6 @@ class CustomersPerRepController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
-
     }
 
 
@@ -164,7 +163,7 @@ class CustomersPerRepController extends Controller
             $customer_array = [];
             foreach ($customers as $customer) {
                 if ($customer->payment) {
-                    $payment_date = date('d-m-Y', strtotime($customer->payment->payment_date));
+                    $payment_date = $customer->payment->payment_date;
                 } else {
                     $payment_date = '';
                 }
@@ -174,7 +173,7 @@ class CustomersPerRepController extends Controller
                     'invoices' => number_format($customer->invoices, 0),
                     'due' => number_format($customer->due, 2),
                     'amount' => number_format($customer->amount, 2),
-                    'invoice_date' => date('m-d-Y', strtotime($customer->invoice->invoice_date)),
+                    'invoice_date' => $customer->invoice->invoice_date,
                     'payment_date' => $payment_date,
                     'customer_id' => $customer->ext_id,
                 ]);

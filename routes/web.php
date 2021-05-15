@@ -191,3 +191,5 @@ Route::get('ttt', function () {
     'anyData'  => 'datatables.data',
     'index' => 'datatables',
 ]);*/
+Route::get('forcasts','ForcastingController@index');
+Route::get('forcasts_ajax','ForcastingController@ajax_index');

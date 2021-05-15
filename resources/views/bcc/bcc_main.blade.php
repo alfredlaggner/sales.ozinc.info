@@ -1,18 +1,6 @@
 @extends('layouts.app_datatables')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-{{--
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"/>
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
---}}
 @section('content')
     <style></style>
 
@@ -24,21 +12,38 @@
                         <h5>{{$bcc_type}}</h5>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-responsive-md data-table">
+                        <table id="data-table" class="table table-bordered table-responsive-md">
                             <thead>
                             <tr>
                                 <th>Action</th>
                                 <th>Name</th>
                                 <th>License</th>
+                                <th>City</th>
                                 <th>County</th>
                                 <th>Territory</th>
                                 <th>At Oz</th>
                                 <th>Name</th>
                                 <th>Date Issued</th>
-                                <th>City</th>
-                                <th>Zip</th>
+                                <th>Issued</th>
+                                <th>Expire</th>
                             </tr>
                             </thead>
+                        <tbody></tbody>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>City</th>
+                                <th>County</th>
+                                <th>Territory</th>
+                                <th>At Oz</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -94,8 +99,16 @@
                 '</table>';
         }
 
-        $(function () {
-            var table = $('.data-table').DataTable({
+        $(document).ready(function () {
+
+            $('#data-table tfoot th').each(function () {
+                var title = $('#data-table tfoot th').eq($(this).index()).text();
+                if (title != "") {
+                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                }
+            });
+
+            var table = $('#data-table').DataTable({
                 dom: 'B<"clear">flrtip',
                 buttons:
                     [
@@ -115,35 +128,47 @@
 
                 processing: true,
                 serverSide: true,
-                ajax:
-            "{{ 'https://sales.ozinc.info/bcctest' }}",
-                columns
-        :
-            [
-                {
-                    "className": 'details-control',
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": ''
-                },
-                {data: 'businessName', name: 'businessName', visible: true},
-                {data: 'licenseNumber', name: 'licenseNumber'},
-                {data: 'premiseCounty', name: 'premiseCounty'},
-                {data: 'territory', name: 'territory'},
-                {
-                    data: 'ozCustomer', "render": function (data, type, row) {
-                        return data ? "Yes" : "No"
-                    }
-                },
-                {data: 'businessDBA', name: 'businessDBA', visible: false},
-                {data: 'issuedDate', name: 'issuedDate', visible: false},
-                {data: 'premiseCity', name: 'premiseCity', visible: false},
-                {data: 'premiseZip', name: 'premiseZip', visible: false},
-            ]
-        }
-        )
-            ;
-            $('.data-table tbody').on('click', 'td.details-control', function () {
+                ajax: "{{ 'https://sales.ozinc.info/bcctest' }}",
+                columns:
+                    [
+                        {
+                            "className": 'details-control',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": ''
+                        },
+                        {data: 'businessName', name: 'businessName', visible: true},
+                        {data: 'licenseNumber', name: 'licenseNumber'},
+                        {data: 'premiseCity', name: 'premiseCity', visible: true},
+                        {data: 'premiseCounty', name: 'premiseCounty'},
+                        {data: 'territory', name: 'territory'},
+                        {
+                            data: 'ozCustomer', "render": function (data, type, row) {
+                                return data ? "Yes" : "No"
+                            }
+                        },
+                        {data: 'businessDBA', name: 'businessDBA', visible: false},
+                        {data: 'premiseZip', name: 'premiseZip', visible: false},
+                        {data: 'issuedDate', name: 'issuedDate', visible: true},
+                        {data: 'expiryDate', name: 'issuedDate', visible: true},
+                    ],
+                "initComplete": function (settings, json) {
+                    // Apply the search
+                    this.api().columns().every(function () {
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that
+                                    .search(this.value)
+                                    .draw();
+                            }
+                        });
+                    });
+                }
+            });
+
+            $('#data-table tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
 
@@ -157,6 +182,9 @@
                     tr.addClass('shown');
                 }
             });
+
         });
+
+
     </script>
 @endsection
