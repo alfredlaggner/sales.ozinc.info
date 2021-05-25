@@ -11,7 +11,18 @@
 
             <div class="card">
                 <div class='card-header'>
-                    <h6>Sales Forcast}}</h6>
+                    <h4>Sales Forcast for {{$rep_name}}</h4>
+                    <h6>From <b>{{$from}}</b> to <b>{{$to}}</b></h6>
+                    <table>
+                        <tr>
+                            <td class="text-left">Cash on Delivery:</td>
+                            <td class="text-right"><b>${{number_format($totals[0]['sum_cod'],2)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">14 days Terms: :</td>
+                            <td class="text-right"><b>${{number_format($totals[0]['sum_term'],2)}}</b></td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="card card-body">
                     <div id="div12">
@@ -21,8 +32,12 @@
                         <tr>
                             <th class="text-xl-center">Action</th>
                             <th class="text-xl-center">Customer</th>
+                            <th class="text-xl-center">Due Date</th>
+                            <th class="text-xl-center">Effective Date</th>
                             <th class="text-xl-center">Term</th>
+                            <th class="text-xl-center">Term Id</th>
                             <th class="text-xl-center">Amount</th>
+                            <th class="text-xl-center">Customer Id</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -57,13 +72,17 @@
                                 "defaultContent": ''
                             },
                             {"data": "name"},
+                            {"data": "due_date", visible: false},
+                            {"data": "confirmation_date", visible: false},
                             {"data": "term"},
-                    //        {"data": "sales_order", },
+                            {"data": "term_id", visible: false},
                             {
                                 "data": "amount",
                                 render: $.fn.dataTable.render.number(',', '.', 2, ''),
                                 className: "text-right"
                             },
+                            {"data": "customer_id", visible: false},
+
                         ]
                     }
                 );
@@ -88,7 +107,7 @@
                     .text('Loading...');
 
                 let customer_id = rowData.customer_id;
-                let href = '/invoices_ajax/' + customer_id;
+                let href = '/forcasts_salesorders_ajax/' + customer_id;
 
                 $.ajax({
                     url: href,
@@ -99,12 +118,8 @@
                             .removeClass('loading');
                     }
                 });
-
                 return div;
-
             }
-
-
         </script>
 
         <!-- medium modal -->

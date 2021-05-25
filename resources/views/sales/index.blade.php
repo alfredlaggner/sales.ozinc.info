@@ -26,7 +26,8 @@
                         @can('isAdmin')
                             @include('sales.bcc_datatables')
                             @include('sales.customer_statements')
-                            @include('sales.margin_commissions')
+                                @include('sales.margin_commissions')
+                                @include('sales.forcasts_select')
                         @endcan
                     </div>
                 </div>

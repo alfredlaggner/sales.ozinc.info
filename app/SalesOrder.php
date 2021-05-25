@@ -18,6 +18,11 @@ class SalesOrder extends Model
         return $this->hasMany('App\SaleInvoice', 'order_id', 'sales_order_id');
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'ext_id');
+    }
+
     public function stock_pickings()
     {
         return $this->hasOne(StockPicking::class, 'sales_order_id', 'salesorder_number');
