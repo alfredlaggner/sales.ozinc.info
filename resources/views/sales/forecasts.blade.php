@@ -6,28 +6,42 @@
 
 
 
-    <div class="container-float">
+    <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="col-md-12">
 
             <div class="card">
                 <div class='card-header'>
-                    <h4>Sales Forcast for {{$rep_name}}</h4>
-                    <h6>From <b>{{$from}}</b> to <b>{{$to}}</b></h6>
-                    <table>
+                    <h5>Sales Forecast for <b>{{$rep_name}}</b></h5>
+                    <h5>From <b>{{$from}}</b> to <b>{{$to}}</b></h5>
+                    <table class="table  table-bordered table-condensed table-sm">
+                        @for($i = 0; $i < count($totals); $i++)
+                            <tr>
+                                <td class="text-left">{{$totals[$i]['customers_term_name']}}</td>
+                                <td class="text-right">{{number_format($totals[$i]['sum_term'],2)}}</td>
+                            </tr>
+
+                        @endfor
                         <tr>
-                            <td class="text-left">Cash on Delivery:</td>
-                            <td class="text-right"><b>${{number_format($totals[0]['sum_cod'],2)}}</b></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">14 days Terms: :</td>
-                            <td class="text-right"><b>${{number_format($totals[0]['sum_term'],2)}}</b></td>
+                            <td class="text-left">Forecast Total</td>
+                            <td class="text-right"><b>{{number_format($total[0]['total_sum'],2)}}</b></td>
                         </tr>
                     </table>
+
                 </div>
                 <div class="card card-body">
+
                     <div id="div12">
                     </div>
-                    <table id="forcasts" class="table table-bordered table-hover table-sm">
+                    <table id="forecasts" class="table table-bordered table-hover table-sm">
                         <thead>
                         <tr>
                             <th class="text-xl-center">Action</th>
@@ -49,7 +63,7 @@
         <div id="chart_div"></div>
         <script>
             $(document).ready(function () {
-                var table = $('#forcasts').DataTable({
+                var table = $('#forecasts').DataTable({
                         dom: 'B<"clear">flrtip',
                         buttons:
                             [
@@ -63,7 +77,7 @@
 
                         "processing": true,
                         "serverSide": true,
-                        "ajax": "{{'/forcasts_ajax'}}",
+                        "ajax": "{{'/forecasts_ajax'}}",
                         "columns": [
                             {
                                 "className": 'details-control',
@@ -72,7 +86,7 @@
                                 "defaultContent": ''
                             },
                             {"data": "name"},
-                            {"data": "due_date", visible: false},
+                            {"data": "expected_date", visible: false},
                             {"data": "confirmation_date", visible: false},
                             {"data": "term"},
                             {"data": "term_id", visible: false},
@@ -87,7 +101,7 @@
                     }
                 );
 
-                $('#forcasts tbody').on('click', 'td.details-control', function () {
+                $('#forecasts tbody').on('click', 'td.details-control', function () {
                     var tr = $(this).closest('tr');
                     var row = table.row(tr);
 
@@ -107,7 +121,7 @@
                     .text('Loading...');
 
                 let customer_id = rowData.customer_id;
-                let href = '/forcasts_salesorders_ajax/' + customer_id;
+                let href = '/forecasts_salesorders_ajax/' + customer_id;
 
                 $.ajax({
                     url: href,

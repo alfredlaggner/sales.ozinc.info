@@ -35,7 +35,7 @@ class EmployeeBonusController extends Controller
      */
     public function index(Request $request, $year = 0, $month = 0)
     {
-
+//dd("xxx");
         if (count($request->all())) {
             $month = $request->get('month');
             $year = $request->get('year');
@@ -136,6 +136,7 @@ class EmployeeBonusController extends Controller
         $bonuses = EmployeeBonus::where('year', $year)->where('month', $month)->whereIsTenNinety(false)->get();
         if (!$bonuses->count()) {
             $sps = SalesPerson::where('is_ten_ninety', false)->get();
+          //  dd($sps);
             //   $sps = SalesPerson::get();
             foreach ($sps as $sp) {
                 EmployeeBonus::updateOrCreate(

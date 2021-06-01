@@ -3,13 +3,13 @@
         <thead>
         <tr>
             <th style="font-weight: normal" class="text-xl-left">Order Number</th>
-            <th style="font-weight: normal" class="text-xl-right">Effective Date</th>
+            <th style="font-weight: normal" class="text-xl-right">Confirmation</th>
             <th style="font-weight: normal" class="text-xl-right">Due</th>
             <th style="font-weight: normal" class="text-xl-right">Amount</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($forcast_array as $so)
+        @foreach($forecast_array as $so)
             <tr>
                 <td class="text-xl-left">{{$so['name']}}</td>
                 <td class="text-xl-right">{{$so['confirmation_date']}}</td>

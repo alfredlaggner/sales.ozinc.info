@@ -191,6 +191,6 @@ Route::get('ttt', function () {
     'anyData'  => 'datatables.data',
     'index' => 'datatables',
 ]);*/
-Route::any('forcasts','ForcastingController@index')->name('forcasts');
-Route::get('forcasts_ajax','ForcastingController@ajax_index');
-Route::get('forcasts_salesorders_ajax/{partner_id?}','ForcastingController@ajax_salesorders');
+Route::any('forecasts','ForecastingController@index')->name('forecasts');
+Route::get('forecasts_ajax','ForecastingController@ajax_index');
+Route::get('forecasts_salesorders_ajax/{partner_id?}','ForecastingController@ajax_salesorders');

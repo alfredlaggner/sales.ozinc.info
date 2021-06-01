@@ -27,4 +27,8 @@ class SalesOrder extends Model
     {
         return $this->hasOne(StockPicking::class, 'sales_order_id', 'salesorder_number');
     }
+    public function invoice(){
+        return ($this->belongsTo(Invoice::class,'sales_order','sales_order'));
+    }
+
 }

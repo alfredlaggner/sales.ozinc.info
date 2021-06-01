@@ -64,6 +64,11 @@ class CommissionController extends Controller
             ->get();
         //   dd($paidMonths);
         $user = User::where('id', '=', auth()->id())->first();
+
+        $is_rep = $user->user_type == 'salesperson';
+       // dd($is_rep);
+        session(['is_rep' => $is_rep]);
+
         //    dd(auth()->id());
 
         $salesperson_id = $user->sales_person_id;

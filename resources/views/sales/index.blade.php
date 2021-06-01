@@ -2,12 +2,21 @@
 
 @section('content')
     <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card ">
 
                     @include ('sales.salespersons')
-
                     <div class="accordion" id="accordionExample">
 
                         @can('isAdmin')
@@ -19,6 +28,7 @@
                             @include('sales.aged_receivables')
                             @include('sales.customer_sales')
                             @include('sales.customer_invoices_select')
+                            @include('sales.forecasts_select')
                         @endcanany
 
                         @can('isSalesPerson')
@@ -26,8 +36,7 @@
                         @can('isAdmin')
                             @include('sales.bcc_datatables')
                             @include('sales.customer_statements')
-                                @include('sales.margin_commissions')
-                                @include('sales.forcasts_select')
+                            @include('sales.margin_commissions')
                         @endcan
                     </div>
                 </div>
