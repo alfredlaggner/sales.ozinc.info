@@ -34,7 +34,8 @@
                         @can('isSalesPerson')
                         @endcan
                         @can('isAdmin')
-                            @include('sales.bcc_datatables')
+                                @include('sales.bcc_datatables')
+                                @include('sales.bcc_ext_datatables')
                             @include('sales.customer_statements')
                             @include('sales.margin_commissions')
                         @endcan

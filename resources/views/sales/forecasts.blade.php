@@ -67,7 +67,7 @@
                         dom: 'B<"clear">flrtip',
                         buttons:
                             [
-                                {extend: 'excelHtml5'}
+                                {extend: 'excelHtml5', title: 'Forecasts'}
                             ],
                         lengthMenu:
                             [

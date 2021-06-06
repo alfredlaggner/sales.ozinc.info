@@ -22,4 +22,7 @@ class Salesline extends Model
     {
         return $this->invoice_paid_1099()->where('invoice_paid_1099.is_paid', 0)->get();
     }
+    public function customer(){
+        return $this->belongsTo(Customer::class, 'customer_id', 'ext_id');
+    }
 }

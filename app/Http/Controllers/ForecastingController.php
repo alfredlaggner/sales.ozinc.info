@@ -73,12 +73,12 @@ class ForecastingController extends Controller
 
         $terms = SalesOrder::selectRaw("*, sum(amount_untaxed) as sum_amount_untaxed")
             ->with('customer')
-            ->whereHas('customer',
-                function ($q) {
-                    $q->whereIn('term_id', [1, 2, 3, 5, 6, 7, 10, null]);
-                })
+                      ->whereHas('customer',
+                  function ($q) {
+                              $q->whereIn('term_id', [1, 2, 3, 5, 6, 7, 10]);
+                          })
             ->whereBetween('confirmation_date', [$from, $to])
-            //       ->where('state', '!=', 'paid')
+            ->where('amount_untaxed','>', 1)
             ->when($is_rep, function ($query) use ($rep_id) {
                 return $query->where('salesperson_id', $rep_id);
             })
@@ -104,6 +104,7 @@ class ForecastingController extends Controller
             ->whereBetween('confirmation_date', [$from, $to])
             ->leftJoin('customers', 'customers.ext_id', '=', 'salesorders.customer_id')
             ->whereIn('customers.term_id', [1, 2, 3, 5, 6, 7, 10])
+            ->where('amount_untaxed','>', 1)
             ->when($is_rep, function ($query) use ($rep_id) {
                 return $query->where('salesperson_id', $rep_id);
             })
@@ -114,6 +115,7 @@ class ForecastingController extends Controller
             ->whereBetween('confirmation_date', [$from, $to])
             ->leftJoin('customers', 'customers.ext_id', '=', 'salesorders.customer_id')
             ->whereIn('customers.term_id', [1, 2, 3, 5, 6, 7, 10])
+            ->where('amount_untaxed','>', 1)
             ->when($is_rep, function ($query) use ($rep_id) {
                 return $query->where('salesperson_id', $rep_id);
             })
@@ -139,6 +141,7 @@ class ForecastingController extends Controller
                 function ($q) {
                     $q->whereIn('term_id', [1, 2, 3, 5, 6, 7, 10]);
                 })
+            ->where('amount_untaxed','>', 1)
             ->whereBetween('confirmation_date', [$from, $to])
             ->when($is_rep, function ($query, $rep_id) use ($is_rep) {
                 return $query->where('salesperson_id', $rep_id);

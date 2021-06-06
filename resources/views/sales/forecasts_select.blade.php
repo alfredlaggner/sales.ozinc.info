@@ -6,8 +6,8 @@ $end =  date('Y-m-d', $date);
 $end = date('Y-m-d', strtotime("this week + 14 days"));
 
 $salespersons = $salesperson->toArray();
-array_push($salespersons,['name' => 'All','sales_person_id' => 0]);
-$sp = collect($salespersons);
+/*array_push($salespersons,['name' => 'All','sales_person_id' => 0]);
+*/$sp = collect($salespersons);
 //dd($salesperson);
 @endphp
 <div class="card">

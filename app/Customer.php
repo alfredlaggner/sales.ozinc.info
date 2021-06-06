@@ -40,6 +40,12 @@ class Customer extends Model
         return $this->hasOne(Invoice::class, 'customer_id', 'ext_id')
             ->orderBy('invoice_date','desc');
     }
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'customer_id', 'ext_id')
+            ->orderBy('invoice_date','desc');
+    }
+
     public function payment()
     {
         return $this->hasOne(Payment::class, 'customer_id', 'ext_id')

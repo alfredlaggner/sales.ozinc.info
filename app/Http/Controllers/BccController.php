@@ -5,14 +5,25 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\BccAllLicense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 //use Yajra\Datatables\Facades\Datatables;
+use Alexmg86\LaravelSubQuery\Facades\LaravelSubQuery;
+use Alexmg86\LaravelSubQuery\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
 use DataTables;
-
 class BccController extends Controller
 {
     public function index(Request $request)
     {
+
+        $license_type=$request->get('bcc_type');
+        $data = BccAllLicense::where('licenseType', $license_type)
+            ->where('licenseStatus', 'Active')
+            ->orderBy('id')
+            ->get();
+   //     dd($data->count());
+
 
         if (!$license_type = Session::get('bcc_type'))
             $license_type = 'Cannabis - Retailer License';
@@ -22,6 +33,8 @@ class BccController extends Controller
                 ->where('licenseStatus', 'Active')
                 ->orderBy('id')
                 ->get();
+
+
 
             return Datatables::of($data)
                 ->addIndexColumn()

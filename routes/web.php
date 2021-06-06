@@ -194,3 +194,6 @@ Route::get('ttt', function () {
 Route::any('forecasts','ForecastingController@index')->name('forecasts');
 Route::get('forecasts_ajax','ForecastingController@ajax_index');
 Route::get('forecasts_salesorders_ajax/{partner_id?}','ForecastingController@ajax_salesorders');
+
+Route::get('dreamers','ReportingController@dreamers_report');
+Route::any('ext_bcc','ReportingController@index')->name('bcc.ext_bcc');

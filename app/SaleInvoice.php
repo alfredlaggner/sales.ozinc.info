@@ -9,8 +9,7 @@
 	class SaleInvoice extends Model
 	{
 		//  use Searchable;
-
-		protected $table = 'invoice_lines';
+        protected $table = 'invoice_lines';
 
 		protected $fillable = ['commission', 'comm_percent', 'comm_version', 'comm_region', 'updated_at', 'created_at'];
 

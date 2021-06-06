@@ -28,7 +28,7 @@
                                 <th>Expire</th>
                             </tr>
                             </thead>
-                        <tbody></tbody>
+                            <tbody></tbody>
                             <tfoot>
                             <tr>
                                 <th></th>
@@ -113,13 +113,9 @@
                 buttons:
                     [
                         {
-                            extend: 'excelHtml5',
-                            exportOptions: {
-                                columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                            }
-                        },
-                        'colvis',
-                    ],
+                            extend: 'excelHtml5', title: 'Bcc Extended'
+                        }
+sequ                    ],
                 lengthMenu:
                     [
                         [10, 25, 50, -1],
@@ -128,7 +124,7 @@
 
                 processing: true,
                 serverSide: true,
-                ajax: "{{ 'https://sales.ozinc.info/bcctest' }}",
+                ajax: "{{ '/bcctest' }}",
                 columns:
                     [
                         {
