@@ -19,38 +19,10 @@ class ReportingController extends Controller
     {
         $license_type = 'Cannabis - Retailer Nonstorefront License';
         $license_type=$request->get('bcc_type');
-        $data = BccAllLicense::where('licenseType', $license_type)
-            ->where('licenseStatus', 'Active')
-            ->orderBy('id')
-            ->get();
-        //     dd($data->count());
-
 
         if (!$license_type = Session::get('bcc_type'))
             $license_type = 'Cannabis - Retailer Nonstorefront License';
 
-        /*        $not_oz_datas = BccAllLicense::where('licenseType', $license_type)
-                    ->where('ozCustomer', false)
-                    ->where('licenseStatus', 'Active')
-                    ->orderBy('id')
-                    ->limit(10)
-                    ->get();
-                $bcc_data = [];
-                    foreach ($not_oz_datas as $oz_data) {
-                        $data = [
-                            'customer' => $oz_data->businessName,
-                            'license' => $oz_data->licenseNumber,
-                            'city' => $oz_data->premiseCity,
-                            'county' => $oz_data->premiseCounty,
-                            'territory' => $oz_data->territory,
-                            'at_oz' => $oz_data->ozCustomer ? "Yes" : "No",
-                            'sales_person' => "",
-                            'total_sales' => "",
-                            'last_invoice' => "",
-                        ];
-                        array_push($bcc_data, $data);
-                    }
-                    dd($bcc_data);*/
 
         if ($request->ajax()) {
             $oz_datas = BccAllLicense::where('licenseType', $license_type)
@@ -83,16 +55,40 @@ class ReportingController extends Controller
                 ];
                 array_push($bcc_data, $data);
             }
+            $no_invoice = BccAllLicense::where('licenseType', $license_type)
+                ->where('ozCustomer', true)
+                ->doesntHave('invoices')
+                ->where('licenseStatus', 'Active')
+                ->orderBy('id')
+                ->get();
+        //    dd($no_invoice);
+
+            foreach ($no_invoice as $oz_data) {
+                $data = [
+                    'customer' => $oz_data->customer->name,
+                    'license' => $oz_data->licenseNumber,
+                    'city' => $oz_data->premiseCity,
+                    'county' => $oz_data->premiseCounty,
+                    'territory' => $oz_data->territory,
+                    'at_oz' => $oz_data->ozCustomer ? "Yes" : "No",
+                    'sales_person' => "",
+                    'total_sales' => "no invoice",
+                    'last_invoice' => "",
+                ];
+                array_push($bcc_data, $data);
+            }
+
 
             $not_oz_datas = BccAllLicense::where('licenseType', $license_type)
                 ->where('ozCustomer', false)
                 ->where('licenseStatus', 'Active')
+                ->has('customer')
                 ->orderBy('id')
                 ->get();
 
             foreach ($not_oz_datas as $oz_data) {
                 $data = [
-                    'customer' => $oz_data->businessName,
+                    'customer' => $oz_data->customer->name,
                     'license' => $oz_data->licenseNumber,
                     'city' => $oz_data->premiseCity,
                     'county' => $oz_data->premiseCounty,

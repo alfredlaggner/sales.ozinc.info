@@ -113,13 +113,13 @@
                 buttons:
                     [
                         {
-                            extend: 'excelHtml5', title: 'Bcc Extended'
+                            extend: 'excelHtml5', title: 'Bcc Companies'
                         }
-sequ                    ],
+                    ],
                 lengthMenu:
                     [
-                        [10, 25, 50, -1],
-                        ['10 rows', '25 rows', '50 rows', 'Show all']
+                        [-1, 10, 25, 50],
+                        ['Show all','10 rows', '25 rows', '50 rows']
                     ],
 
                 processing: true,

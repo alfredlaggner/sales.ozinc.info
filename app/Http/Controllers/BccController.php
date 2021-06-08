@@ -18,11 +18,11 @@ class BccController extends Controller
     {
 
         $license_type=$request->get('bcc_type');
-        $data = BccAllLicense::where('licenseType', $license_type)
+/*        $data = BccAllLicense::where('licenseType', $license_type)
             ->where('licenseStatus', 'Active')
             ->orderBy('id')
             ->get();
-   //     dd($data->count());
+   //     dd($data->count());*/
 
 
         if (!$license_type = Session::get('bcc_type'))
