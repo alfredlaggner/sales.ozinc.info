@@ -197,3 +197,6 @@ Route::get('forecasts_salesorders_ajax/{partner_id?}','ForecastingController@aja
 
 Route::get('dreamers','ReportingController@dreamers_report');
 Route::any('ext_bcc','ReportingController@index')->name('bcc.ext_bcc');
+
+Route::get('license','CustomerLicenseController@index')->name('license.index');
+
