@@ -200,3 +200,11 @@ Route::any('ext_bcc','ReportingController@index')->name('bcc.ext_bcc');
 
 Route::get('license','CustomerLicenseController@index')->name('license.index');
 
+Route::any('select_sellable','ProductAvailableController@index')->name('select.sellable');
+Route::any('sellable','ProductAvailableController@index')->name('product.sellable');
+Route::get('sellable_ajax','ProductAvailableController@ajax_sellable')->name('product.sellable_ajax');
+
+
+Route::any('select_zero_sellable','ProductAvailableController@zero_sellable')->name('select.zero_sellable');
+Route::any('zero_sellable','ProductAvailableController@zero_sellable')->name('product.zero_sellable');
+Route::get('zero_sellable_ajax','ProductAvailableController@ajax_zero_sellable')->name('product.zero_sellable_ajax');

@@ -34,10 +34,10 @@
                         @can('isSalesPerson')
                         @endcan
                         @can('isAdmin')
-                                @include('sales.bcc_datatables')
-                                @include('sales.bcc_ext_datatables')
+                            @include('sales.bcc_datatables')
+                            @include('sales.bcc_ext_datatables')
                             @include('sales.customer_statements')
-                            @include('sales.margin_commissions')
+                            @include('product_stock.zero_sellable_select')
                         @endcan
                     </div>
                 </div>
